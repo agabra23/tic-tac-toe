@@ -1,4 +1,4 @@
-let boardArr = ["X", "O", "X", "O", "X", "O", "X", "O", "X"];
+// let boardArr = ["X", "O", "X", "O", "X", "O", "X", "O", "X"];
 
 // Gameboard Object
 function Gameboard() {
@@ -15,7 +15,7 @@ function Gameboard() {
 
   const getBoard = () => board;
 
-  const placeIcon = (row, column, player) => {
+  const placeIcon = (column, row, player) => {
     board[row][column].addMark(player);
   };
 
@@ -23,6 +23,7 @@ function Gameboard() {
     const boardWithCellValues = board.map((row) =>
       row.map((cell) => cell.getValue())
     );
+    console.log(boardWithCellValues);
   };
 
   return { getBoard, placeIcon, printBoard };
@@ -30,7 +31,7 @@ function Gameboard() {
 
 // Cell Object
 function Cell() {
-  let value = 0;
+  let value = "";
 
   const addMark = (player) => {
     value = player;
@@ -61,7 +62,7 @@ function GameController(playerOneName = "User", playerTwoName = "Computer") {
     console.log(`${getActivePlayer().name}'s turn.`);
   };
 
-  const playRound = (column) => {
+  const playRound = (column, row) => {
     board.placeIcon(column, row, getActivePlayer().token);
 
     switchPlayerTurn();
@@ -73,7 +74,49 @@ function GameController(playerOneName = "User", playerTwoName = "Computer") {
   return {
     playRound,
     getActivePlayer,
+    getBoard: board.getBoard,
   };
 }
 
-const game = GameController();
+function DisplayController() {
+  const game = GameController();
+  const boardDiv = document.querySelector(".gameboard-grid");
+  const playerTurnDisplay = document.querySelector(".turn-status");
+
+  const updateScreen = () => {
+    boardDiv.textContent = "";
+
+    const board = game.getBoard();
+    const activePlayer = game.getActivePlayer();
+
+    playerTurnDisplay.textContent = `${activePlayer.name}'s turn...`;
+
+    board.forEach((row, i) => {
+      row.forEach((cell, j) => {
+        const cellButton = document.createElement("div");
+        cellButton.classList.add("cell");
+
+        cellButton.dataset.column = j;
+        cellButton.dataset.row = i;
+
+        cellButton.textContent = cell.getValue();
+        boardDiv.appendChild(cellButton);
+      });
+    });
+  };
+
+  function clickHandlerBoard(e) {
+    const selectedColumn = e.target.dataset.column;
+    const selectedRow = e.target.dataset.row;
+
+    if (!selectedColumn) return;
+
+    game.playRound(selectedColumn, selectedRow);
+    updateScreen();
+  }
+  boardDiv.addEventListener("click", clickHandlerBoard);
+
+  updateScreen();
+}
+
+DisplayController();
