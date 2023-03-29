@@ -1,4 +1,11 @@
-// let boardArr = ["X", "O", "X", "O", "X", "O", "X", "O", "X"];
+// Window Events
+
+const resetButton = document.querySelector(".reset-game");
+resetButton.onclick = resetGame;
+
+function resetGame() {
+  DisplayController();
+}
 
 // Gameboard Object
 function Gameboard() {
@@ -119,4 +126,6 @@ function DisplayController() {
   updateScreen();
 }
 
-DisplayController();
+window.onload = () => {
+  DisplayController();
+};
