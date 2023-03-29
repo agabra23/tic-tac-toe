@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap");
+
+/* CSS Resets */
+
+:root {
+  font-size: 10px;
+  text-decoration: none;
+  font-family: "Source Sans Pro", sans-serif;
+  --primary-dark: #333;
+  --primary-light: #efefef;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  border: none;
+}
+
+*:focus {
+  outline: none;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Basic Layout Styling */
+
+body {
+  background-color: var(--primary-light);
+  color: var(--primary-light);
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 4rem;
+  background-color: var(--primary-dark);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  gap: 1.5rem;
+}
+
+h1 {
+  padding: 0;
+  margin: 0;
+  font-size: 2.5rem;
+  color: var(--primary-light);
+}
+
+.btn {
+  padding: 1.4rem;
+  font-size: 1.5rem;
+  background-color: var(--primary-dark);
+  color: var(--primary-light);
+  border: 1px solid var(--primary-light);
+  border-radius: 1rem;
+  font-weight: 400;
+  transition: all 0.15s;
+}
+
+.btn:hover {
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+main {
+  flex: 1;
+}
+
+.gameboard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 2rem;
+  border: 1px solid var(--primary-dark);
+  border-radius: 1rem;
+  width: min(600px, 85vw);
+  height: 600px;
+  padding: 2rem;
+}
+
+.gameboard-grid {
+  width: 90%;
+  height: 90%;
+  display: grid;
+  /* border: 1px solid red; */
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+.cell {
+  border: 1px solid var(--primary-dark);
+}
+
+.cell:nth-child(1),
+.cell:nth-child(2),
+.cell:nth-child(3) {
+  border-top: none;
+}
+
+.cell:nth-child(7),
+.cell:nth-child(8),
+.cell:nth-child(9) {
+  border-bottom: none;
+}
+
+.cell:nth-child(1),
+.cell:nth-child(4),
+.cell:nth-child(7) {
+  border-left: none;
+}
+
+.cell:nth-child(3),
+.cell:nth-child(6),
+.cell:nth-child(9) {
+  border-right: none;
+}
+
+.cell:nth-child(4),
+.cell:nth-child(5),
+.cell:nth-child(6) {
+  border-top: none;
+  border-bottom: none;
+}
+
+.cell:nth-child(2),
+.cell:nth-child(5),
+.cell:nth-child(8) {
+  border-left: none;
+  border-right: none;
+}
