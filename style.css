@@ -108,7 +108,16 @@ main {
 }
 
 .cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid var(--primary-dark);
+  color: var(--primary-dark);
+  font-size: 8rem;
+  font-weight: 800;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
 }
 
 .cell:nth-child(1),
