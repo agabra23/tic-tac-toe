@@ -1,13 +1,8 @@
 // Window Events
 
-const resetButton = document.querySelectorAll(".reset-game");
-resetButton.forEach((button) => {
-  button.onclick = resetGame;
-});
-
-function resetGame() {
-  DisplayController();
-}
+// function resetGame() {
+//   DisplayController();
+// }
 
 // Gameboard Object
 function Gameboard() {
@@ -20,6 +15,13 @@ function Gameboard() {
   for (let i = 0; i < cells; i++) {
     board.push(Cell());
   }
+
+  const resetBoard = () => {
+    board = [];
+    for (let i = 0; i < cells; i++) {
+      board.push(Cell());
+    }
+  };
 
   // This will be the method of getting the entire board that our
   // UI will eventually need to render it.
@@ -36,7 +38,7 @@ function Gameboard() {
     console.log(boardWithCellValues);
   };
 
-  return { getBoard, placeIcon, printBoard };
+  return { getBoard, placeIcon, printBoard, resetBoard };
 }
 
 // Cell Object
@@ -56,6 +58,7 @@ function Cell() {
 
 // will control game flow and win logic
 function GameController(
+  winStatus = false,
   playerOneName = "Player 1",
   playerTwoName = "Player 2"
 ) {
@@ -65,8 +68,6 @@ function GameController(
     { name: playerOneName, token: "X" },
     { name: playerTwoName, token: "O" },
   ];
-
-  let winStatus = false;
 
   const winConditions = [
     [0, 1, 2],
@@ -114,13 +115,11 @@ function GameController(
   const getWinStatus = () => {
     return winStatus;
   };
-
   const playRound = (cell) => {
     //places curr player's token into the array at the correct spot
     board.placeIcon(cell, getActivePlayer().token);
 
     // Winner Logic
-
     if (checkWin()) {
       winStatus = true;
     } else {
@@ -135,12 +134,24 @@ function GameController(
     playRound,
     getActivePlayer,
     getBoard: board.getBoard,
+    newBoard: board.resetBoard,
     getWinStatus,
   };
 }
 
 function DisplayController() {
-  const game = GameController();
+  let game = GameController();
+
+  const resetButton = document.querySelectorAll(".reset-game");
+  resetButton.forEach((button) => {
+    button.onclick = () => {
+      game.newBoard();
+      game = GameController(false);
+      updateScreen();
+      modal.classList.remove("active");
+      overlay.classList.remove("active");
+    };
+  });
 
   const boardDiv = document.querySelector(".gameboard-grid");
   const playerTurnDisplay = document.querySelector(".turn-status");
@@ -148,10 +159,8 @@ function DisplayController() {
   const modal = document.querySelector(".modal");
   const winMsg = document.querySelector(".win-msg");
 
-  modal.classList.remove("active");
-  overlay.classList.remove("active");
-
-  
+  // modal.classList.remove("active");
+  // overlay.classList.remove("active");
 
   const updateScreen = () => {
     boardDiv.textContent = "";
@@ -186,8 +195,9 @@ function DisplayController() {
     if (!selectedCell) return;
 
     game.playRound(selectedCell);
-    updateScreen();
+    console.log(game.getWinStatus());
     if (game.getWinStatus() === true) endGame();
+    updateScreen();
   }
   boardDiv.addEventListener("click", clickHandlerBoard);
 
