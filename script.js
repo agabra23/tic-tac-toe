@@ -63,6 +63,8 @@ function GameController(
     { name: playerTwoName, token: "O" },
   ];
 
+  let winStatus = false;
+
   const winConditions = [
     [0, 1, 2],
     [3, 4, 5],
@@ -79,9 +81,9 @@ function GameController(
 
     for (let i = 0; i < winConditions.length; i++) {
       const condition = winConditions[i];
-      const cellA = boardArr[condition[0]];
-      const cellB = boardArr[condition[1]];
-      const cellC = boardArr[condition[2]];
+      const cellA = boardArr[condition[0]].getValue();
+      const cellB = boardArr[condition[1]].getValue();
+      const cellC = boardArr[condition[2]].getValue();
 
       if (cellA == "" && cellB == "" && cellC == "") continue;
       if (cellA == cellB && cellB == cellC) {
@@ -89,6 +91,7 @@ function GameController(
         break;
       }
     }
+    return roundWon;
   };
 
   let activePlayer = players[0];
@@ -105,17 +108,22 @@ function GameController(
     console.log(`${getActivePlayer().name}'s turn.`);
   };
 
+  const getWinStatus = () => {
+    return winStatus;
+  };
+
   const playRound = (cell) => {
     //places curr player's token into the array at the correct spot
     board.placeIcon(cell, getActivePlayer().token);
 
     // Winner Logic
 
-    // if (checkWin) {
-
-    // }
+    if (checkWin()) {
+      winStatus = true;
+    } else {
+      switchPlayerTurn();
+    }
     printNewRound();
-    switchPlayerTurn();
   };
 
   printNewRound();
@@ -124,6 +132,7 @@ function GameController(
     playRound,
     getActivePlayer,
     getBoard: board.getBoard,
+    getWinStatus,
   };
 }
 
@@ -151,6 +160,10 @@ function DisplayController() {
     });
   };
 
+  const endGame = () => {
+    playerTurnDisplay.innerHTML = `${game.getActivePlayer().name} won!`;
+  };
+
   function clickHandlerBoard(e) {
     const selectedCell = e.target.dataset.cell;
 
@@ -158,6 +171,7 @@ function DisplayController() {
 
     game.playRound(selectedCell);
     updateScreen();
+    if (game.getWinStatus() === true) endGame();
   }
   boardDiv.addEventListener("click", clickHandlerBoard);
 
