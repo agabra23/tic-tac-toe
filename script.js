@@ -1,7 +1,9 @@
 // Window Events
 
-const resetButton = document.querySelector(".reset-game");
-resetButton.onclick = resetGame;
+const resetButton = document.querySelectorAll(".reset-game");
+resetButton.forEach((button) => {
+  button.onclick = resetGame;
+});
 
 function resetGame() {
   DisplayController();
@@ -11,8 +13,9 @@ function resetGame() {
 function Gameboard() {
   //   const rows = 3;
   //   const columns = 3;
+
   const cells = 9;
-  const board = [];
+  let board = [];
 
   for (let i = 0; i < cells; i++) {
     board.push(Cell());
@@ -138,8 +141,17 @@ function GameController(
 
 function DisplayController() {
   const game = GameController();
+
   const boardDiv = document.querySelector(".gameboard-grid");
   const playerTurnDisplay = document.querySelector(".turn-status");
+  const overlay = document.querySelector(".overlay");
+  const modal = document.querySelector(".modal");
+  const winMsg = document.querySelector(".win-msg");
+
+  modal.classList.remove("active");
+  overlay.classList.remove("active");
+
+  
 
   const updateScreen = () => {
     boardDiv.textContent = "";
@@ -161,7 +173,11 @@ function DisplayController() {
   };
 
   const endGame = () => {
-    playerTurnDisplay.innerHTML = `${game.getActivePlayer().name} won!`;
+    const activePlayer = game.getActivePlayer();
+    playerTurnDisplay.innerHTML = `${activePlayer.name} Wins!`;
+    winMsg.innerHTML = `${activePlayer.name} Wins!`;
+    modal.classList.add("active");
+    overlay.classList.add("active");
   };
 
   function clickHandlerBoard(e) {
