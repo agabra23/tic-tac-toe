@@ -200,6 +200,7 @@ main {
   border-radius: 2rem;
   z-index: 10;
   transform: translate(-50%, -50%) scale(0);
+  transition: all .15s;
 }
 
 .modal.active {
