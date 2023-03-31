@@ -80,6 +80,7 @@ h1 {
 .btn:hover {
   background-color: var(--primary-light);
   color: var(--primary-dark);
+  box-shadow: 0 0 15px 0 rgba(239, 239, 239, 0.7);
 }
 
 main {
@@ -167,16 +168,21 @@ main {
 
 /* Overlay */
 
-.overlay.active {
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: var(--primary-dark);
-  opacity: 0.5;
+  opacity: 0;
   z-index: 2;
   pointer-events: none;
+}
+
+.overlay.active {
+  pointer-events: all;
+  opacity: 0.5;
 }
 
 .modal {
