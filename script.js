@@ -219,9 +219,6 @@ function DisplayController() {
     openGameScreen();
   };
 
-  // modal.classList.remove("active");
-  // overlay.classList.remove("active");
-
   const updateScreen = () => {
     boardDiv.textContent = "";
 
