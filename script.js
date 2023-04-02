@@ -1,9 +1,3 @@
-// Window Events
-
-// function resetGame() {
-//   DisplayController();
-// }
-
 // Gameboard Object
 function Gameboard() {
   //   const rows = 3;
@@ -58,7 +52,7 @@ function Cell() {
 
 // will control game flow and win logic
 function GameController(
-  winStatus = false,
+  winStatus = "none",
   playerOneName = "Player 1",
   playerTwoName = "Player 2"
 ) {
@@ -81,7 +75,11 @@ function GameController(
   ];
 
   const checkWin = () => {
-    let roundWon = false;
+    let roundWon = "none";
+
+    const containEmptyString = (element) => element.getValue() === "";
+
+    if (!boardArr.some(containEmptyString)) roundWon = "tie";
 
     for (let i = 0; i < winConditions.length; i++) {
       const condition = winConditions[i];
@@ -91,10 +89,11 @@ function GameController(
 
       if (cellA == "" && cellB == "" && cellC == "") continue;
       if (cellA == cellB && cellB == cellC) {
-        roundWon = true;
+        roundWon = "win";
         break;
       }
     }
+
     return roundWon;
   };
 
@@ -117,14 +116,12 @@ function GameController(
   };
   const playRound = (cell) => {
     //places curr player's token into the array at the correct spot
+    if (boardArr[cell].getValue() != "") return;
     board.placeIcon(cell, getActivePlayer().token);
 
     // Winner Logic
-    if (checkWin()) {
-      winStatus = true;
-    } else {
-      switchPlayerTurn();
-    }
+    winStatus = checkWin();
+    if (winStatus === "none") switchPlayerTurn();
     printNewRound();
   };
 
@@ -146,7 +143,7 @@ function DisplayController() {
   resetButton.forEach((button) => {
     button.onclick = () => {
       game.newBoard();
-      game = GameController(false);
+      game = GameController("none");
       updateScreen();
       modal.classList.remove("active");
       overlay.classList.remove("active");
@@ -183,8 +180,14 @@ function DisplayController() {
 
   const endGame = () => {
     const activePlayer = game.getActivePlayer();
-    playerTurnDisplay.innerHTML = `${activePlayer.name} Wins!`;
-    winMsg.innerHTML = `${activePlayer.name} Wins!`;
+    if (game.getWinStatus() === "tie") {
+      playerTurnDisplay.innerHTML = `Tie!`;
+      winMsg.innerHTML = `Tie!`;
+    } else {
+      playerTurnDisplay.innerHTML = `${activePlayer.name} Wins!`;
+      winMsg.innerHTML = `${activePlayer.name} Wins!`;
+    }
+
     modal.classList.add("active");
     overlay.classList.add("active");
   };
@@ -193,10 +196,9 @@ function DisplayController() {
     const selectedCell = e.target.dataset.cell;
 
     if (!selectedCell) return;
-
     game.playRound(selectedCell);
     console.log(game.getWinStatus());
-    if (game.getWinStatus() === true) endGame();
+    if (game.getWinStatus() != "none") endGame();
     updateScreen();
   }
   boardDiv.addEventListener("click", clickHandlerBoard);
