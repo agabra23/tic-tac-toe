@@ -178,6 +178,9 @@ function DisplayController() {
     updateScreen();
     modal.classList.remove("active");
     overlay.classList.remove("active");
+    playerOneInput.value = "";
+    playerTwoInput.value = "";
+    if (playerOneTokenBtn.textContent === "O") swapTokens();
     curtainOverlay.classList.add("active");
   };
 
