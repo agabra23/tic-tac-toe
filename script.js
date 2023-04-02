@@ -139,17 +139,6 @@ function GameController(
 }
 
 function DisplayController() {
-  const resetButton = document.querySelectorAll(".reset-game");
-  resetButton.forEach((button) => {
-    button.onclick = () => {
-      game.newBoard();
-      game = GameController("none");
-      updateScreen();
-      modal.classList.remove("active");
-      overlay.classList.remove("active");
-    };
-  });
-
   const boardDiv = document.querySelector(".gameboard-grid");
   const playerTurnDisplay = document.querySelector(".turn-status");
   const overlay = document.getElementById("overlay");
@@ -164,6 +153,23 @@ function DisplayController() {
   const playBtn = document.querySelector(".play-btn");
 
   let game = GameController();
+
+  const resetButton = document.querySelectorAll(".reset-game");
+  resetButton.forEach((button) => {
+    button.onclick = () => {
+      game.newBoard();
+      game = GameController(
+        "none",
+        playerOneInput.value === "" ? "Player 1" : playerOneInput.value,
+        playerOneTokenBtn.textContent,
+        playerTwoInput.value === "" ? "Player 2" : playerTwoInput.value,
+        playerTwoTokenBtn.textContent
+      );
+      updateScreen();
+      modal.classList.remove("active");
+      overlay.classList.remove("active");
+    };
+  });
 
   const swapTokens = () => {
     if (playerOneTokenBtn.innerHTML === "X") {
