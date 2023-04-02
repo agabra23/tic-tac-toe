@@ -144,6 +144,7 @@ function DisplayController() {
   const overlay = document.getElementById("overlay");
   const modal = document.querySelector(".modal");
   const winMsg = document.querySelector(".win-msg");
+  const newGameBtn = document.getElementById("newGameBtn");
 
   const curtainOverlay = document.querySelector(".curtain");
   const playerOneInput = document.getElementById("playerOneName");
@@ -170,6 +171,15 @@ function DisplayController() {
       overlay.classList.remove("active");
     };
   });
+
+  newGameBtn.onclick = () => {
+    game.newBoard();
+    game = GameController();
+    updateScreen();
+    modal.classList.remove("active");
+    overlay.classList.remove("active");
+    curtainOverlay.classList.add("active");
+  };
 
   const swapTokens = () => {
     if (playerOneTokenBtn.innerHTML === "X") {
