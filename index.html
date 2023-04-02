@@ -23,10 +23,10 @@
       <button class="reset-game btn">Play Again</button>
     </div>
     <div class="overlay" id="overlay"></div>
-    <div class="curtain overlay active">
-      <h1 class="curtain-title">TIC TAC TOE</h1>
-      <div class="curtain-form">
-        <form action="#">
+    <form action="#">
+      <div class="curtain overlay active">
+        <h1 class="curtain-title">TIC - TAC - TOE</h1>
+        <div class="curtain-form">
           <div>
             <label for="playerOneName">Player 1 Name</label>
             <input
@@ -34,6 +34,7 @@
               id="playerOneName"
               class="playerOneName"
               placeholder="Name"
+              required
             />
           </div>
 
@@ -44,26 +45,27 @@
               id="playerTwoName"
               class="playerTwoName"
               placeholder="Name"
+              required
             />
           </div>
-        </form>
+        </div>
+        <div class="token-buttons">
+          <button class="btn token-selector" id="playerOneToken">X</button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            id="swap-arrows"
+            style="width: 5rem"
+            fill="currentColor"
+          >
+            <title>arrow-left-right-bold</title>
+            <path d="M8,14V18L2,12L8,6V10H16V6L22,12L16,18V14H8Z" />
+          </svg>
+          <button class="btn token-selector" id="playerTwoToken">O</button>
+        </div>
+        <button type="submit" class="btn play-btn">PLAY</button>
       </div>
-      <div class="token-buttons">
-        <button class="btn token-selector" id="playerOneToken">X</button>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          id="swap-arrows"
-          style="width: 5rem"
-          fill="currentColor"
-        >
-          <title>arrow-left-right-bold</title>
-          <path d="M8,14V18L2,12L8,6V10H16V6L22,12L16,18V14H8Z" />
-        </svg>
-        <button class="btn token-selector" id="playerTwoToken">O</button>
-      </div>
-      <button type="submit" class="btn play-btn">PLAY</button>
-    </div>
+    </form>
   </body>
   <script src="script.js"></script>
 </html>

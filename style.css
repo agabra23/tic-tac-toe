@@ -234,6 +234,14 @@ main {
   transform: scale(1);
 }
 
+.curtain-form {
+  font-size: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10rem;
+}
+
 label {
   text-align: center;
 }
@@ -259,15 +267,7 @@ input::placeholder {
   font-size: 2rem;
 }
 
-form {
-  font-size: 4rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10rem;
-}
-
-form > div {
+.curtain-form > div {
   display: flex;
   flex-direction: column;
   justify-content: center;

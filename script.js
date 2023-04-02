@@ -139,8 +139,6 @@ function GameController(
 }
 
 function DisplayController() {
-  let game = GameController();
-
   const resetButton = document.querySelectorAll(".reset-game");
   resetButton.forEach((button) => {
     button.onclick = () => {
@@ -160,10 +158,12 @@ function DisplayController() {
 
   const curtainOverlay = document.querySelector(".curtain");
   const playerOneInput = document.getElementById("playerOneName");
-  const playerTwoInput = document.getElementById("playerTwoInput");
+  const playerTwoInput = document.getElementById("playerTwoName");
   const playerOneTokenBtn = document.getElementById("playerOneToken");
   const playerTwoTokenBtn = document.getElementById("playerTwoToken");
   const playBtn = document.querySelector(".play-btn");
+
+  let game = GameController();
 
   const swapTokens = () => {
     if (playerOneTokenBtn.innerHTML === "X") {
@@ -182,11 +182,23 @@ function DisplayController() {
     swapTokens();
   };
 
-  const hideCurtain = () => {
+  const openGameScreen = () => {
+    game = GameController(
+      "none",
+      playerOneInput.value === "" ? "Player 1" : playerOneInput.value,
+      playerOneTokenBtn.textContent,
+      playerTwoInput.value === "" ? "Player 2" : playerTwoInput.value,
+      playerTwoTokenBtn.textContent
+    );
+    updateScreen();
     curtainOverlay.classList.remove("active");
   };
 
-  playBtn.onclick = hideCurtain;
+  playBtn.onclick = (e) => {
+    e.preventDefault();
+
+    openGameScreen();
+  };
 
   // modal.classList.remove("active");
   // overlay.classList.remove("active");
