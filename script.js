@@ -54,13 +54,15 @@ function Cell() {
 function GameController(
   winStatus = "none",
   playerOneName = "Player 1",
-  playerTwoName = "Player 2"
+  playerOneToken = "X",
+  playerTwoName = "Player 2",
+  playerTwoToken = "O"
 ) {
   const board = Gameboard();
   const boardArr = board.getBoard();
   const players = [
-    { name: playerOneName, token: "X" },
-    { name: playerTwoName, token: "O" },
+    { name: playerOneName, token: playerOneToken },
+    { name: playerTwoName, token: playerTwoToken },
   ];
 
   const winConditions = [
@@ -152,9 +154,39 @@ function DisplayController() {
 
   const boardDiv = document.querySelector(".gameboard-grid");
   const playerTurnDisplay = document.querySelector(".turn-status");
-  const overlay = document.querySelector(".overlay");
+  const overlay = document.getElementById("overlay");
   const modal = document.querySelector(".modal");
   const winMsg = document.querySelector(".win-msg");
+
+  const curtainOverlay = document.querySelector(".curtain");
+  const playerOneInput = document.getElementById("playerOneName");
+  const playerTwoInput = document.getElementById("playerTwoInput");
+  const playerOneTokenBtn = document.getElementById("playerOneToken");
+  const playerTwoTokenBtn = document.getElementById("playerTwoToken");
+  const playBtn = document.querySelector(".play-btn");
+
+  const swapTokens = () => {
+    if (playerOneTokenBtn.innerHTML === "X") {
+      playerOneTokenBtn.innerHTML = "O";
+      playerTwoTokenBtn.innerHTML = "X";
+    } else {
+      playerOneTokenBtn.innerHTML = "X";
+      playerTwoTokenBtn.innerHTML = "O";
+    }
+  };
+
+  playerOneTokenBtn.onclick = () => {
+    swapTokens();
+  };
+  playerTwoTokenBtn.onclick = () => {
+    swapTokens();
+  };
+
+  const hideCurtain = () => {
+    curtainOverlay.classList.remove("active");
+  };
+
+  playBtn.onclick = hideCurtain;
 
   // modal.classList.remove("active");
   // overlay.classList.remove("active");
